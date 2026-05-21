@@ -1,0 +1,15 @@
+##  We do not load data directly into the Parquet table
+        When we load data into a row-format table, Hive reads it in a deserialized form (rows).
+        When we insert into a Parquet table, Hive serializes those rows into Parquet format.
+
+
+When we have custom raw data then we have to use SerDe lib for processing the data 
+
+
+Row format delimited ==> .CSV
+ROw format serde ==> .CSV data with quotes
+
+original data -> "ANUJ ,KUMAR "DE" "
+raw data -> "ANUJ,KUMAR \"DE\" "
+output data  -> ANUJ,KUMAR "DE"
+

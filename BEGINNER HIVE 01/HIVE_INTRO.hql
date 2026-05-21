@@ -57,3 +57,9 @@ use intro;
 ## Selecting 
 
     select * from user;
+
+
+
+# CREATING DUPLICATE  TABLE 
+
+    create table duplicate as select * from user;

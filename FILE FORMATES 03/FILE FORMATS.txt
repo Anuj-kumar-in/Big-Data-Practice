@@ -1,0 +1,47 @@
+File format classifications
+
+1. Row-based formats
+- Storage: store full rows together.
+- Fast for: writing and point lookups of full rows.
+- Slower for: scanning a few columns from wide tables.
+- Examples: Avro, JSON, CSV, Text.
+
+2. Columnar formats
+- Storage: store each column together (column chunks/stripes).
+- Fast for: analytics that read a few columns across many rows.
+- Slower for: frequent row-level updates or full-row reads.
+- Examples: Parquet, ORC.
+
+3. Row-columnar (hybrid)
+- Storage: row groups with column blocks inside (balances row and column use).
+- Examples: RCFile (older), Parquet and ORC also use row-group style layouts.
+
+Note on SQL vs NoSQL
+- SQL/NoSQL are database models, not file formats.
+- File formats (Parquet, ORC, Avro) can be used by both SQL and NoSQL systems.
+
+Parquet
+- Type: columnar.
+- Storage architecture: row groups -> column chunks -> pages.
+- Compression: supports Snappy, Gzip, Zstd, LZ4.
+- Suitable for: analytics, BI queries, selective column reads, data lakes.
+- Not ideal for: heavy row-level updates.
+
+ORC
+- Type: columnar.
+- Storage architecture: stripes -> row data + index + footer.
+- Compression: supports Snappy, Zlib, Zstd, LZ4.
+- Suitable for: Hive/Presto/Trino analytics, predicate pushdown, strong stats.
+- Not ideal for: frequent row-level updates.
+
+Avro
+- Type: row-based with schema.
+- Storage architecture: data blocks with schema stored in file header.
+- Compression: supports Snappy, Deflate, Bzip2.
+- Suitable for: write-heavy pipelines, streaming ingestion, schema evolution.
+- Not ideal for: fast column pruning in analytics.
+
+Quick selection guide
+1. Need fast analytics on a few columns: Parquet or ORC.
+2. Need fast writes or streaming ingestion: Avro.
+3. Need strong Hive integration and stats: ORC.

@@ -1,0 +1,34 @@
+The whole purpose for SerDe is converting data object to byte stream and vice versa 
+** FILE FORMATS IS SAME FOR BOTH SIDES **
+
+
+## SERIALIZATION 
+    converting original data (object)  into byte stream
+    Fast transmission over network 
+    less data size
+    happen when writing data
+
+
+## DESERIALIZATION
+    converting byte stream into object (Original data )
+    happen when reading data
+
+How it happens (simple flow)
+1. An application creates an object/record.
+2. A serializer (SerDe) converts it to bytes using a file format.
+3. Bytes are stored or sent over the network.
+4. A deserializer reads the bytes and rebuilds the object.
+
+Example (JSON format)
+1. Original object
+    {"id": 101, "name": "Asha", "score": 92}
+2. Serialized byte stream (concept)
+    7b 22 69 64 22 3a 20 31 30 31 2c 20 22 6e 61 6d 65 22 3a 20 22 41 73 68 61 22 2c 20 22 73 63 6f 72 65 22 3a 20 39 32 7d
+3. Deserialization
+    - Bytes are read and decoded back into the same JSON object
+
+Example (Hive SerDe idea)
+1. Table uses a SerDe (e.g., ORC, Parquet, or JSON SerDe).
+2. On write: Hive converts rows to bytes with that SerDe.
+3. On read: Hive converts bytes back into rows with the same SerDe.
+
