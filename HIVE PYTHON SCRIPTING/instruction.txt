@@ -1,0 +1,10 @@
+// 1.Add python file in hive resources
+>add file "file//{filePath}"
+
+//2. using transform function to use python scripting
+>select transform(column_name) using 'python file_name.py' as name from table_name;
+
+//3.For tansforming multiple column
+modify string for multiple columns 
+>add file "file//{filePath}"
+>select transform(column_name,order_no) using 'python file_name.py' as (name string, no int) from table_name;

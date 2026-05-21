@@ -1,0 +1,16 @@
+INNER JOIN (INTERSECTION)
+OUTER JOIN (UNION) 
+RIGHT JOIN
+LEFT JOIN
+CROSS JOIN 
+
+
+
+HIVE OPTIMIZED JOINS
+
+1.Reduce side join
+2.Map side join4
+3.Bucket Map  join  
+4. Sorted Merge Bucket Map Join (SMBM)
+
+

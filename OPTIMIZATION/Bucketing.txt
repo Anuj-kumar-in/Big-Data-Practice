@@ -1,0 +1,8 @@
+1.To create small chunks/buckets/cluster of data 
+2.bucketing can be same as partitioning but vice versa not true because bucketing 
+uses the hashing for storing
+3.Cant be multilevel like the partitioning
+
+4. Data skewness(Some bucket will be emty which can effect optimization) can be happen   
+ Partitioning = pick less unique column
+ Bucketing = pick column which is unique(id column)

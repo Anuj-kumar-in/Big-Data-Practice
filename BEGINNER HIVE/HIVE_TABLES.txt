@@ -1,0 +1,28 @@
+Internal (managed) table
+1. Hive owns both metadata and data files.
+2. Data is stored in Hive's warehouse location by default.
+3. DROP TABLE deletes metadata and data.
+4. Best when Hive is the primary owner of the data.
+5.Only one connection can be happen
+
+External table
+1. Hive owns only the metadata, not the data files.
+2. Data location is provided with LOCATION.
+3. DROP TABLE deletes only metadata, not data.
+4. Best when data is shared with other tools or systems.
+5.more tha one connection 
+
+Key differences (quick view)
+1. Ownership: internal = Hive manages data, external = user/system manages data.
+2. Drop behavior: internal removes data, external keeps data.
+3. Use case: internal for Hive-only pipelines, external for shared datasets.
+
+Example
+1. Internal table
+	CREATE TABLE sales (id INT, amount DOUBLE)
+	STORED AS ORC;
+
+2. External table
+	CREATE EXTERNAL TABLE web_logs (url STRING, ts STRING)
+	STORED AS TEXTFILE
+	LOCATION '/data/logs/web_logs';

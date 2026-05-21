@@ -1,0 +1,138 @@
+Hive has three main layers:
+1. HDFS
+2. MapReduce
+3. YARN
+
+HDFS (Hadoop Distributed File System)
+
+1.x architecture
+
+Master-slave file system with these roles:
+1. NameNode
+      - Receives requests and keeps metadata
+2. JobTracker
+      - Splits jobs into tasks
+      - Controls overall execution in the cluster
+3. TaskTracker
+      - Runs tasks on each machine
+      - Reports status to the JobTracker
+4. DataNodes
+      - Store the actual data
+
+Key features:
+1. Automatic replication
+2. Checkpointing
+
+2.x architecture
+
+YARN is introduced as the global resource manager.
+The ResourceManager asks NodeManagers for required resources.
+After confirmation, the ApplicationMaster creates a job ID and registers it.
+When the job finishes, the registry entry and ApplicationMaster are removed.
+
+3.x architecture
+
+Containers are introduced as virtual spaces that combine different resources.
+
+Simple Hive workflow (high level)
+1. User submits a Hive query.
+2. Hive parses and compiles the query into a job plan.
+3. HDFS provides the input data blocks.
+4. YARN allocates containers and starts the application.
+5. MapReduce tasks run on the containers.
+6. Results are written back to HDFS and returned to the user.
+
+MapReduce steps and working
+1. Input split
+      - HDFS splits input files into blocks.
+      - Each split is assigned to a mapper.
+2. Record reader
+      - Converts raw bytes into key-value pairs for the mapper.
+3. Map phase
+      - Mapper processes input pairs.
+      - Emits intermediate key-value pairs.
+4. Combiner (optional)
+      - Local aggregation on mapper output to reduce shuffle size.
+5. Partitioning
+      - Decides which reducer gets each key.
+6. Shuffle and sort
+      - Transfers mapper output to reducers.
+      - Sorts keys and groups values for each reducer.
+7. Reduce phase
+      - Reducer processes each key and its list of values.
+      - Emits final key-value output.
+8. Output format
+      - Writes reducer output to HDFS.
+
+Apache Hive architecture (layers and services)
+
+1. Client layer (ways to connect)
+1. CLI/Beeline
+      - Command line clients for running queries.
+2. JDBC/ODBC
+      - Used by BI tools and applications.
+3. Web UI or REST
+      - Optional interfaces for submitting queries.
+
+2. Service layer
+1. HiveServer2 (HS2)
+      - Main service that accepts client connections.
+      - Manages sessions, authentication, and query lifecycle.
+2. Metastore service
+      - Central metadata service.
+      - Stores table schemas, partitions, locations, stats, and permissions.
+3. Driver
+      - Coordinates the full query execution.
+      - Handles parsing, compiling, optimizing, and scheduling.
+
+3. Compiler and optimizer layer
+1. Parser
+      - Converts HQL into an abstract syntax tree (AST).
+2. Semantic analyzer
+      - Checks tables, columns, and types.
+      - Creates a logical query plan.
+3. Optimizer
+      - Applies rule-based and cost-based optimizations.
+      - Examples: predicate pushdown, join reordering, map-side joins.
+4. Execution planner
+      - Converts the optimized plan into tasks for the execution engine.
+
+4. Execution layer (engine)
+1. MapReduce
+      - Batch engine (older, reliable, slower).
+2. Tez
+      - DAG-based engine (faster for complex queries).
+3. Spark
+      - In-memory engine (good for iterative workloads).
+4. LLAP (optional)
+      - Long-running daemons that cache data and speed up queries.
+
+5. Storage layer
+1. HDFS
+      - Default distributed storage for Hive tables.
+2. Other storage systems
+      - S3, ADLS, or HBase (external tables).
+3. File formats
+      - Text, ORC, Parquet, Avro, RCFile.
+
+6. Serialization and data handling
+1. SerDe (Serializer/Deserializer)
+      - Converts between Hive rows and storage formats.
+2. InputFormat/OutputFormat
+      - Reads and writes files for MapReduce/Tez/Spark.
+3. UDF/UDAF/UDTF
+      - Custom functions for scalar, aggregate, or table outputs.
+
+7. Resource management and scheduling
+1. YARN
+      - Allocates containers and resources to execution tasks.
+2. Queue and capacity policies
+      - Controls priorities and resource sharing.
+
+Typical working flow (summary)
+1. Client submits HQL to HiveServer2.
+2. Driver parses and validates the query using the Metastore.
+3. Optimizer creates an efficient execution plan.
+4. Execution engine runs tasks on YARN.
+5. Data is read from HDFS, processed, and written back.
+6. Results are returned to the client.
