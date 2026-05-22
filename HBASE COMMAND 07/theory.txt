@@ -1,0 +1,31 @@
+HBASE VERSIONING
+
+- Each cell is identified by row key + column family:qualifier + timestamp.
+- HBase stores multiple versions of a cell, each with its own timestamp.
+- Updating a cell writes a new version; the old value remains until it is
+	expired or removed by compaction.
+
+WHY IT IS USEFUL
+
+- You can read previous values for audit/history.
+- Time-travel reads: fetch a value as of a specific timestamp.
+- Some workflows can recover old data without extra logs.
+
+LIMITS AND SETTINGS
+
+- Default is only 1 version (latest) per cell.
+- Set per column family:
+	- VERSIONS (max versions to keep)
+	- MIN_VERSIONS (versions to keep even if expired)
+	- TTL (time to live, after which versions can expire)
+- Compaction eventually deletes expired/extra versions.
+- More versions increase storage and compaction cost.
+
+
+##TO  GET THE TABLE OF ALL VERSION
+
+        scan 'customer' , {VERSIONS=>10}
+
+## For current version
+
+        scan 'customer'

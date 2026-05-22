@@ -63,3 +63,9 @@ use intro;
 # CREATING DUPLICATE  TABLE 
 
     create table duplicate as select * from user;
+
+
+
+# COPY DATA FROM ONE TABLE TO  ANOTHER
+
+        insert into table table2 select * from table1

@@ -1,0 +1,22 @@
+create , list ,describe ,disable,enable ,drop ,alter 
+show filter , disable-all, enable-all 
+
+#CREATE  (To create table)
+
+    create 'tableName'  'colmn1','colmn2'.....
+    ex : create 'customer' 'adress', 'order'
+
+    create 'student' ,{NAME=>"personal",VERSIONS=>5},'school'
+
+
+#DROP (To drop  the table )
+    first we have to disable the table 
+    #DISABLE 
+        disable 'customer'
+    
+    drop 'customer'
+
+
+#DESCRIBE (for deatails of table )
+
+    describe 'customer'

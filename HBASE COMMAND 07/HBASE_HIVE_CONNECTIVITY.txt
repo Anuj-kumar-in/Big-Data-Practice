@@ -1,0 +1,22 @@
+
+add jar hive-hbase-handler.jar
+
+1. create a column family in hbase
+
+    create 'hbase_test' 'dims' 'measures'
+
+2.create table in the hive  by library
+
+        create external table hive_test(
+            id string,
+            name string,
+            timestamp int
+        )
+        row format delimited
+        fields terminated by ','
+        stored by 'org.apache.hadoop.hive.hbase.HbaseStorageHandler'
+        with serdeproperties
+        ("hbase_column_mapping"=":id,dims:name,measures:timestamp")
+        tblproperties("hbase.table.name"="hbase_test")
+        ;
+

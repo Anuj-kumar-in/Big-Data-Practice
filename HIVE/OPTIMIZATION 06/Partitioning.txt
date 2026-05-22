@@ -1,0 +1,13 @@
+There are difference beyween partitoning and bucketing and both are independent to each other
+
+Partitioning happen on the specificiec column which is with less unique data (Or can be grouped)
+on the oter hand bucketing is storing mechanism on the basis of hash and meant for unique data 
+
+Partitioningcan be happen on multilevel but bucketing cant
+
+
+Partitioning have two types - static and dynamic
+
+
+in static partioning we have to define manualy on which specifiec value of column we have to do partioning
+in dynamic partioning , partitions happen automatically based on given column

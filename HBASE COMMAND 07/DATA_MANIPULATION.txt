@@ -1,0 +1,35 @@
+count , put , get , delete ,truncate , truncate all,scan
+
+#GET (to get data of particular row or cell or column's row  )
+        get 'TableName' 'RowId'
+        ex : get 'customer' 'Anuj'
+
+#PUT (to insert a data in particular row id)
+        put  'TableName' 'RowId' 'object1 : key1 ' 'value1' 'object2 : key2 ' 'value2'
+        ex : put 'customer' 'Anuj' 'Address:state' 'Uttrakhand' 'Order : number' 'ord-01'
+                put 'customer' 'Anuj' 'Address:City' 'Haridwar' 'Order : Amount' '1500'
+ 
+        change versions if data will overwrite
+
+#SCAN (to get whole table)
+        scan 'TableName'
+        ex : scan 'customer'
+
+# DELETE 
+        (to delete particular cell)
+        delete 'customer' 'Anuj' 'Address:state'
+
+        (to delete row)
+        delete 'customer' 'Anuj' 'order:number'
+
+
+#ALTER (delete entire column family) 
+
+        alter 'customer','Anuj','delete'=>'address'
+
+        (alter the versions)
+        alter 'employee1' , NAME =>'address' , VERSIONS => 5
+
+        
+
+ 
